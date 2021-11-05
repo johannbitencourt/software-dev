@@ -62,8 +62,8 @@ export const LoginModalInterceptor = () => {
 
   const handleClose = () => {
     updateToken(null);
+    history.push('/dashboard');
     onClose();
-    history.push('/login');
   };
 
   return (
@@ -77,8 +77,7 @@ export const LoginModalInterceptor = () => {
       <ModalContent>
         <ModalCloseButton />
         <ModalBody p="6">
-          <Heading size="lg">{'title'}</Heading>
-          <Text mb="2">{'description'}</Text>
+          <Heading size="lg">{'Confirmação de Conta'}</Heading>
           <LoginForm onSuccess={handleLogin} />
         </ModalBody>
       </ModalContent>

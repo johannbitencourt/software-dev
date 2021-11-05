@@ -21,7 +21,7 @@ export const useAccount = (config: UseQueryOptions<Account> = {}) => {
       ...config,
     }
   );
-  const isAdmin = !!account?.authorities?.includes('ROLE_ADMIN');
+  const isAdmin = !!account?.authorities?.includes('DOCTOR');
   return { account, isAdmin, ...rest };
 };
 
@@ -29,16 +29,16 @@ export const useCreateAccount = (
   config: UseMutationOptions<
     Account,
     unknown,
-    Pick<Account, 'login' | 'email'> & { password: string }
+    Pick<Account, 'login' | 'authorities'> & { password: string }
   > = {}
 ) => {
   return useMutation(
     ({
       login,
-      email,
       password,
+      authorities
     }): Promise<Account> =>
-      Axios.post('/register', { login, email, password }),
+      Axios.post('/register', { login, password, authorities, }),
     {
       ...config,
     }
@@ -67,36 +67,6 @@ export const useUpdateAccount = (
           config.onMutate(data);
         }
       },
-      ...config,
-    }
-  );
-};
-
-export const useResetPasswordInit = (
-  config: UseMutationOptions<void, unknown, string> = {}
-) => {
-  return useMutation(
-    (email): Promise<void> =>
-      Axios.post('/account/reset-password/init', email, {
-        headers: { 'Content-Type': 'text/plain' },
-      }),
-    {
-      ...config,
-    }
-  );
-};
-
-export const useResetPasswordFinish = (
-  config: UseMutationOptions<
-    void,
-    unknown,
-    { key: string; newPassword: string }
-  > = {}
-) => {
-  return useMutation(
-    (payload): Promise<void> =>
-      Axios.post('/account/reset-password/finish', payload),
-    {
       ...config,
     }
   );

@@ -67,7 +67,7 @@ export const MainMenu = ({ ...rest }) => {
         {'Dashboard'}
       </MainMenuItem>
       {isAdmin && (
-        <MainMenuItem to="/admin">{'Admin'}</MainMenuItem>
+        <MainMenuItem to="/admin">{'Consultas'}</MainMenuItem>
       )}
     </Stack>
   );

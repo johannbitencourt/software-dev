@@ -1,11 +1,10 @@
-export type UserRole = 'ROLE_ADMIN' | 'ROLE_USER';
+export type UserRole = 'DOCTOR' | 'PATIENT';
 
 export interface User {
   id: number;
-  login: string;
+  login: number;
   firstName?: string;
   lastName?: string;
-  email: string;
   activated: boolean;
   authorities: UserRole[];
   createdBy?: string;

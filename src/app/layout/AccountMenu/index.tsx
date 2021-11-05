@@ -98,7 +98,7 @@ export const AccountMenu = ({ ...rest }) => {
   return (
     <Menu placement="bottom-end" {...rest}>
       <MenuButton borderRadius="full" _focus={{ shadow: 'outline' }}>
-        <Avatar size="sm" icon={<></>} name={!isLoading && `${account?.login}`}>
+        <Avatar size="sm" icon={<></>} name={!isLoading && `${account?.firstName}`}>
           {isLoading && <Spinner size="xs" />}
         </Avatar>
       </MenuButton>
@@ -107,7 +107,7 @@ export const AccountMenu = ({ ...rest }) => {
         maxW="12rem"
         overflow="hidden"
       >
-        <MenuGroup title={account?.email} isTruncated>
+        <MenuGroup title={account?.firstName} isTruncated>
           <MenuItem
             as={Link}
             to="/account"

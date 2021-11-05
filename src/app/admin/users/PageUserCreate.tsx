@@ -1,18 +1,31 @@
 import React from 'react';
 
-import { Button, ButtonGroup, Heading } from '@chakra-ui/react';
+import { Button, ButtonGroup, Heading, Stack } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
 import { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
 
-import { UserForm } from '@/app/admin/users/UserForm';
+import {
+  isPattern,
+} from '@formiz/validations';
+
+import { FieldCheckboxes, FieldInput } from '@/components';
+import { useDarkMode } from '@/hooks/useDarkMode';
+
 import { useUserCreate } from '@/app/admin/users/users.service';
-import { Page, PageContent, PageBottomBar, PageTopBar } from '@/app/layout';
+import { Page, PageContent, PageTopBar } from '@/app/layout';
 import { useToastError, useToastSuccess } from '@/components';
+
+const AUTHORITIES = {
+  DOCTOR: 'DOCTOR',
+  PATIENT: 'PATIENT',
+};
 
 export const PageUserCreate = () => {
   const history = useHistory();
   const form = useForm({ subscribe: false });
+  const { colorModeValue } = useDarkMode();
+  const authorities = Object.values(AUTHORITIES).map((value) => ({ value }));
 
   const toastError = useToastError();
   const toastSuccess = useToastSuccess();
@@ -28,11 +41,6 @@ export const PageUserCreate = () => {
         case 'userexists':
           form.invalidateFields({
             login: 'login já está sendo usado',
-          });
-          break;
-        case 'emailexists':
-          form.invalidateFields({
-            email: 'email já está sendo usado',
           });
           break;
       }
@@ -61,25 +69,53 @@ export const PageUserCreate = () => {
       >
         <form noValidate onSubmit={form.submit}>
           <PageTopBar showBack onBack={() => history.goBack()}>
-            <Heading size="md">{'Create User'}</Heading>
+            <Heading size="md">{'Nova Consulta'}</Heading>
           </PageTopBar>
           <PageContent>
-            <UserForm />
+            <Stack
+              direction="column"
+              bg={colorModeValue('white', 'gray.900')}
+              p="6"
+              borderRadius="lg"
+              spacing="6"
+              shadow="md"
+            >
+              <FieldInput
+                name="login"
+                label={'usuário (CPF)'}
+                mask={'***.***.***-**'}
+                required={'usuário obrigatório'}
+                validations={[
+                  {
+                    rule: isPattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'),
+                    message: 'apenas números são permitidos',
+                  },
+                ]}
+              />
+              <Stack direction={{ base: 'column', sm: 'row' }} spacing="6">
+                <FieldInput name="firstName" label={'nome'} />
+                <FieldInput name="lastName" label={'sobrenome'} />
+              </Stack>
+              <FieldCheckboxes
+                name="authorities"
+                label={'autorização'}
+                options={authorities}
+                required={'autorização obrigatória'}
+              />
+              <ButtonGroup justifyContent="space-between">
+                <Button onClick={() => history.goBack()}>
+                  {'Cancelar'}
+                </Button>
+                <Button
+                  type="submit"
+                  variant="@primary"
+                  isLoading={createUserLoading}
+                >
+                  {'Salvar'}
+                </Button>
+              </ButtonGroup>
+            </Stack>
           </PageContent>
-          <PageBottomBar>
-            <ButtonGroup justifyContent="space-between">
-              <Button onClick={() => history.goBack()}>
-                {'Cancelar'}
-              </Button>
-              <Button
-                type="submit"
-                variant="@primary"
-                isLoading={createUserLoading}
-              >
-                {'Salvar'}
-              </Button>
-            </ButtonGroup>
-          </PageBottomBar>
         </form>
       </Formiz>
     </Page>

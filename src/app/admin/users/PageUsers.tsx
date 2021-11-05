@@ -188,11 +188,11 @@ export const PageUsers = () => {
               variant="@primary"
               leftIcon={<FiPlus />}
             >
-              {'Create User'}
+              {'Nova Consulta'}
             </Button>
             <IconButton
               display={{ base: 'flex', sm: 'none' }}
-              aria-label={'Create User'}
+              aria-label={'Nova Consulta'}
               as={Link}
               to={`${url}/create`}
               size="sm"
@@ -204,7 +204,7 @@ export const PageUsers = () => {
         <DataList>
           <DataListHeader isVisible={{ base: false, md: true }}>
             <DataListCell colName="login" colWidth="2">
-              {'login'} / {'email'}
+              {'CPF'}
             </DataListCell>
             <DataListCell
               colName="id"
@@ -246,20 +246,12 @@ export const PageUsers = () => {
             <DataListRow as={LinkBox} key={user.id}>
               <DataListCell colName="login">
                 <HStack maxW="100%">
-                  <Avatar size="sm" name={user.login} mx="1" />
+                  <Avatar size="sm" name={user.firstName} mx="1" />
                   <Box minW="0">
                     <Text isTruncated maxW="full" fontWeight="bold">
                       <LinkOverlay as={Link} to={`${url}/${user.login}`}>
                         {user.login}
                       </LinkOverlay>
-                    </Text>
-                    <Text
-                      isTruncated
-                      maxW="full"
-                      fontSize="sm"
-                      color={colorModeValue('gray.600', 'gray.300')}
-                    >
-                      {user.email}
                     </Text>
                   </Box>
                 </HStack>

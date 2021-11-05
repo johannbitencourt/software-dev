@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Alert,
@@ -13,7 +13,6 @@ import {
 } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
 import {
-  isEmail,
   isMaxLength,
   isMinLength,
   isPattern,
@@ -21,8 +20,12 @@ import {
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useCreateAccount } from '@/app/account/account.service';
-import { FieldInput, SlideIn, useToastError } from '@/components';
+import { FieldInput, SlideIn, FieldCheckboxes, useToastError } from '@/components';
 import { useDarkMode } from '@/hooks/useDarkMode';
+
+const AUTHORITIES = {
+  DOCTOR: 'Médico'
+};
 
 export const PageRegister = () => {
   const { colorModeValue } = useDarkMode();
@@ -30,12 +33,8 @@ export const PageRegister = () => {
     subscribe: { form: true },
   });
   const toastError = useToastError();
-  const [accountEmail, setAccountEmail] = useState('');
-
+  const authorities = Object.values(AUTHORITIES).map((value) => ({ value }));
   const { mutate: createUser, isLoading, isSuccess } = useCreateAccount({
-    onMutate: ({ email }) => {
-      setAccountEmail(email);
-    },
     onError: (error: any) => {
       const { errorKey, title } = error?.response?.data || {};
 
@@ -46,12 +45,8 @@ export const PageRegister = () => {
 
       if (errorKey === 'userexists') {
         form.invalidateFields({
-          login: 'login already exists',
+          login: 'login já existe no sistema',
         });
-      }
-
-      if (errorKey === 'emailexists') {
-        form.invalidateFields({ email: 'email already exists'});
       }
     },
   });
@@ -73,7 +68,7 @@ export const PageRegister = () => {
           >
             <Box fontSize="3rem">🎉</Box>
             <AlertTitle mt={4} mb={1} fontSize="lg">
-              {'registration success'}
+              {'Registrado com Sucesso'}
             </AlertTitle>
           </Alert>
           <Center mt="8">
@@ -83,7 +78,7 @@ export const PageRegister = () => {
               variant="link"
               color={colorModeValue('brand.500', 'brand.300')}
             >
-              {'go to login'}
+              {'volte para o login'}
             </Button>
           </Center>
         </ScaleFade>
@@ -107,46 +102,18 @@ export const PageRegister = () => {
             boxShadow="md"
           >
             <Heading size="lg" mb="4">
-              {'Sign Up'}
+              {'Sign up'}
             </Heading>
             <Stack spacing="4">
               <FieldInput
                 name="login"
-                label={'login'}
-                required={'login obrigatório'}
+                label={'usuário (CPF)'}
+                mask={'***.***.***-**'}
+                required={'usuário obrigatório'}
                 validations={[
                   {
-                    rule: isMinLength(2),
-                    message: 'login muito curto min: 2',
-                  },
-                  {
-                    rule: isMaxLength(50),
-                    message: 'login muito longo max: 50',
-                  },
-                  {
-                    rule: isPattern(
-                      '^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'
-                    ),
-                    message: 'login inválido',
-                  },
-                ]}
-              />
-              <FieldInput
-                name="email"
-                label={'email'}
-                required={'email obrigatório'}
-                validations={[
-                  {
-                    rule: isMinLength(5),
-                    message: 'email muito curto min: 5',
-                  },
-                  {
-                    rule: isMaxLength(254),
-                    message: 'email muito longo max: 254',
-                  },
-                  {
-                    rule: isEmail(),
-                    message: 'email inválido',
+                    rule: isPattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'),
+                    message: 'apenas números são permitidos',
                   },
                 ]}
               />
@@ -165,6 +132,10 @@ export const PageRegister = () => {
                     message:'senha muito longa max: 50'
                   },
                 ]}
+              />
+              <FieldCheckboxes
+                name="authorities"
+                options={authorities}
               />
               <Flex>
                 <Button

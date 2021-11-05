@@ -1,29 +1,33 @@
 import React from 'react';
 
+import { isPattern } from '@formiz/validations';
+
 import {
-  Alert,
-  AlertDescription,
   Box,
   Button,
   Flex,
   Stack,
 } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
-import { Link as RouterLink } from 'react-router-dom';
 
 import { useLogin } from '@/app/auth/auth.service';
-import { FieldInput, useToastError } from '@/components';
+import { FieldInput, FieldCheckboxes, useToastError } from '@/components';
 
+
+const AUTHORITIES = {
+  DOCTOR: 'Médico'
+};
 
 export const LoginForm = ({ onSuccess = () => undefined, ...rest }) => {
   const form = useForm({ subscribe: 'form' });
   const toastError = useToastError();
+  const authorities = Object.values(AUTHORITIES).map((value) => ({ value }));
 
   const { mutate: login, isLoading } = useLogin({
     onSuccess,
     onError: (error: any) => {
       toastError({
-        title: 'title',
+        title: 'Não foi possível logar usando essa conta',
         description: error?.response?.data?.title,
       });
     },
@@ -35,8 +39,15 @@ export const LoginForm = ({ onSuccess = () => undefined, ...rest }) => {
         <Stack spacing="4">
           <FieldInput
             name="username"
-            label={'usuário'}
+            label={'usuário (CPF)'}
+            mask={'***.***.***-**'}
             required={'usuário obrigatório'}
+            validations={[
+              {
+                rule: isPattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'),
+                message: 'apenas números são permitidos',
+              },
+            ]}
           />
           <FieldInput
             name="password"
@@ -44,16 +55,11 @@ export const LoginForm = ({ onSuccess = () => undefined, ...rest }) => {
             label={'senha'}
             required={'senha obrigatória'}
           />
+          <FieldCheckboxes
+            name="authorities"
+            options={authorities}
+          />
           <Flex>
-            <Button
-              as={RouterLink}
-              to="/account/reset"
-              size="sm"
-              variant="link"
-              whiteSpace="initial"
-            >
-              {'Esqueceu a senha?'}
-            </Button>
             <Button
               isLoading={isLoading}
               isDisabled={form.isSubmitted && !form.isValid}

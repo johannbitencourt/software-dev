@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import InputMask from 'react-input-mask';
 
 import {
   Input,
@@ -19,6 +20,7 @@ export interface FieldInputProps
     Omit<FormGroupProps, 'placeholder'>,
     Pick<InputProps, 'type' | 'placeholder'> {
   size?: 'sm' | 'md' | 'lg';
+  mask?: string;
 }
 
 export const FieldInput = (props: FieldInputProps) => {
@@ -34,11 +36,12 @@ export const FieldInput = (props: FieldInputProps) => {
     otherProps,
   } = useField(props);
   const {
+    mask,
     children,
     label,
     type,
     placeholder,
-    helper,
+    helper,    
     size = 'md',
     ...rest
   } = otherProps;
@@ -55,6 +58,7 @@ export const FieldInput = (props: FieldInputProps) => {
     errorMessage,
     helper,
     id,
+    mask,
     isRequired: !!required,
     label,
     showError,
@@ -65,6 +69,9 @@ export const FieldInput = (props: FieldInputProps) => {
     <FormGroup {...formGroupProps}>
       <InputGroup size={size}>
         <Input
+          as={InputMask}
+          mask={mask ?? ''}
+          maskChar={null}
           type={showPassword ? 'text' : type || 'text'}
           id={id}
           value={value ?? ''}

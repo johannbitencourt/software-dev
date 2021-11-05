@@ -17,15 +17,18 @@ import { useUser, useUserUpdate } from '@/app/admin/users/users.service';
 import {
   Page,
   PageContent,
-  PageBottomBar,
   PageTopBar,
   Loader,
 } from '@/app/layout';
-import { useToastError, useToastSuccess } from '@/components';
+
+import {
+  isPattern,
+} from '@formiz/validations';
+
+import { useToastError, useToastSuccess, FieldInput } from '@/components';
 import { Error404 } from '@/errors';
 import { useDarkMode } from '@/hooks/useDarkMode';
 
-import { UserForm } from './UserForm';
 import { UserStatus } from './UserStatus';
 
 export const PageUserUpdate = () => {
@@ -54,11 +57,6 @@ export const PageUserUpdate = () => {
         case 'userexists':
           form.invalidateFields({
             login: 'login already used',
-          });
-          break;
-        case 'emailexists':
-          form.invalidateFields({
-            email: 'email already used',
           });
           break;
       }
@@ -115,22 +113,44 @@ export const PageUserUpdate = () => {
         >
           <form noValidate onSubmit={form.submit}>
             <PageContent>
-              <UserForm />
+              <Stack
+                direction="column"
+                bg={colorModeValue('white', 'gray.900')}
+                p="6"
+                borderRadius="lg"
+                spacing="6"
+                shadow="md"
+              >
+                <FieldInput
+                  name="login"
+                  label={'usuário (CPF)'}
+                  mask={'***.***.***-**'}
+                  required={'usuário obrigatório'}
+                  validations={[
+                    {
+                      rule: isPattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'),
+                      message: 'apenas números são permitidos',
+                    },
+                  ]}
+                />
+                <Stack direction={{ base: 'column', sm: 'row' }} spacing="6">
+                  <FieldInput name="firstName" label={'nome'} />
+                  <FieldInput name="lastName" label={'sobrenome'} />
+                </Stack>
+                <ButtonGroup justifyContent="space-between">
+                  <Button onClick={() => history.goBack()}>
+                    {'Cancelar'}
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="@primary"
+                    isLoading={editUserIsLoading}
+                  >
+                    {'Salvar'}
+                  </Button>
+                </ButtonGroup>
+              </Stack>
             </PageContent>
-            <PageBottomBar>
-              <ButtonGroup justifyContent="space-between">
-                <Button onClick={() => history.goBack()}>
-                  {'cancel'}
-                </Button>
-                <Button
-                  type="submit"
-                  variant="@primary"
-                  isLoading={editUserIsLoading}
-                >
-                  {'save'}
-                </Button>
-              </ButtonGroup>
-            </PageBottomBar>
           </form>
         </Formiz>
       )}

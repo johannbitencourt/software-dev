@@ -4,8 +4,6 @@ export const AccountRoutes = (server) => {
   server.get('/account', getCurrent);
   server.post('/account', update);
   server.post('/account/change-password', changePassword);
-  server.post('/account/reset-password/init', initResetPassword);
-  server.post('/account/reset-password/finish', finishResetPassword);
   server.post('/register', register);
 };
 
@@ -35,14 +33,6 @@ const update = (schema, request) => {
   return schema.users.find(userId).update(attrs);
 };
 
-const initResetPassword = (_, request) => {
-  return request.requestBody;
-};
-
-const finishResetPassword = (schema, request) => {
-  const { key, newPassword } = JSON.parse(request.requestBody);
-  return schema.users.find(key).update({ password: newPassword });
-};
 
 const changePassword = (schema, request) => {
   const attrs = JSON.parse(request.requestBody);

@@ -93,7 +93,7 @@ export const useUserCreate = (
     unknown,
     Pick<
       User,
-      'login' | 'email' | 'firstName' | 'lastName' | 'authorities'
+      'login' | 'firstName' | 'lastName' | 'authorities'
     >
   > = {}
 ) => {

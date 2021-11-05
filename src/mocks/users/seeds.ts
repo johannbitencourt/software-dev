@@ -1,8 +1,8 @@
 export const userSeeds = (server) => {
   server.create('user', {
-    login: 'admin',
-    authorities: ['ROLE_ADMIN', 'ROLE_USER'],
+    login: '111.111.111-11',
+    authorities: ['DOCTOR'],
   });
-  server.create('user', { login: 'user', authorities: ['ROLE_USER'] });
+  server.create('user', { login: '222.222.222-22', authorities: ['PATIENT'] });
   server.createList('user', 40);
 };

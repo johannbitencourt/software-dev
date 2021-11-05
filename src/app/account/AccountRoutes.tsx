@@ -6,8 +6,6 @@ import { PageActivate } from '@/app/account/PageActivate';
 import { PagePassword } from '@/app/account/PagePassword';
 import { PageProfile } from '@/app/account/PageProfile';
 import { PageRegister } from '@/app/account/PageRegister';
-import { PageResetPasswordConfirm } from '@/app/account/PageResetPasswordConfirm';
-import { PageResetPasswordRequest } from '@/app/account/PageResetPasswordRequest';
 import { Route, RoutePublicOnly } from '@/app/router';
 import { Error404 } from '@/errors';
 
@@ -30,16 +28,6 @@ const AccountRoutes = () => {
         exact
         path={`${url}/activate`}
         render={() => <PageActivate />}
-      />
-      <RoutePublicOnly
-        exact
-        path={`${url}/reset`}
-        render={() => <PageResetPasswordRequest />}
-      />
-      <RoutePublicOnly
-        exact
-        path={`${url}/reset/finish`}
-        render={() => <PageResetPasswordConfirm />}
       />
 
       <Route exact path={`${url}/profile`} render={() => <PageProfile />} />

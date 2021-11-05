@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Flex, Button, Heading, Stack } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
-import { isEmail } from '@formiz/validations';
 import { useQueryClient } from 'react-query';
 
 import { AccountNav } from '@/app/account/AccountNav';
@@ -83,17 +82,6 @@ export const PageProfile = () => {
                     required={'sobrenome obrigatório'}
                   />
                 </Stack>
-                <FieldInput
-                  name="email"
-                  label={'email'}
-                  required={'email obrigatório'}
-                  validations={[
-                    {
-                      rule: isEmail(),
-                      message: 'email inválido',
-                    },
-                  ]}
-                />
                 <Flex>
                   <Button
                     type="submit"
