@@ -1,0 +1,58 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Role {
+  id          String @id @default(uuid())
+  description String @unique
+  User        User[]
+}
+
+model User {
+  id        String  @id @default(uuid())
+  email     String? @unique
+  cpf       String  @unique
+  firstName String?
+  lastName  String?
+  password  String
+  role      Role    @relation(fields: [roleId], references: [id])
+
+  roleId                String
+  appointments          UserAppointmentRelation[]
+  messagesInAppointment AppointmentMessage[]
+}
+
+model UserAppointmentRelation {
+  id          String      @id @default(uuid())
+  user        User        @relation(fields: [userId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+
+  userId        String
+  appointmentId String
+}
+
+model AppointmentMessage {
+  id          String      @id @default(uuid())
+  user        User        @relation(fields: [userId], references: [id])
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  postDate    DateTime    @default(now())
+  message     String
+
+  userId        String
+  appointmentId String
+}
+
+model Appointment {
+  id           String   @id @default(uuid())
+  status       String
+  creationDate DateTime @default(now())
+  lastUpdate   DateTime @default(now())
+
+  users    UserAppointmentRelation[]
+  messages AppointmentMessage[]
+}
