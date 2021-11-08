@@ -17,7 +17,7 @@ model User {
   id        String  @id @default(uuid())
   email     String? @unique
   cpf       String  @unique
-  firstName String
+  firstName String?
   lastName  String?
   password  String
   role      Role    @relation(fields: [roleId], references: [id])
