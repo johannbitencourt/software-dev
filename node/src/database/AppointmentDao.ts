@@ -52,6 +52,16 @@ class AppointmentDao extends AbstractModel<
   public async readList(where: object) {
     return await prismaClient.userAppointmentRelation.findMany({
       where,
+      select: {
+        appointment: {
+          select: {
+            id: true,
+            status: true,
+            creationDate: true,
+            lastUpdate: true,
+          },
+        },
+      },
     });
   }
 
