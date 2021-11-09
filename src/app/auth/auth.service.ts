@@ -1,19 +1,18 @@
 import Axios from 'axios';
 import { useMutation, UseMutationOptions } from 'react-query';
-
 import { useAuthContext } from '@/app/auth/AuthContext';
 
 export const useLogin = (
   config: UseMutationOptions<
     any,
     unknown,
-    { username: string; password: string }
+    { cpf: string; password: string }
   > = {}
 ) => {
   const { updateToken } = useAuthContext();
   return useMutation(
-    ({ username, password }) =>
-      Axios.post('/authenticate', { username, password }),
+    ({ cpf, password }) =>
+      Axios.post('/authenticate', { cpf, password }),
     {
       ...config,
       onSuccess: (data, ...rest) => {
@@ -25,3 +24,5 @@ export const useLogin = (
     }
   );
 };
+
+//role: role === null ? 'PATIENT' : 'DOCTOR'
