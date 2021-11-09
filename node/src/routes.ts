@@ -8,7 +8,7 @@ const router = Router();
 
 router.get("/init-database", new DatabaseController().handle);
 
-router.post("/login", new UserController().login);
+router.post("/authenticate", new UserController().login);
 
 router.post("/user", new UserController().create);
 router.put("/user", ensureAuthenticated, new UserController().update);

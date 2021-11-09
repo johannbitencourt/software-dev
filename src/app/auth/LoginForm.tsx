@@ -11,17 +11,12 @@ import {
 import { Formiz, useForm } from '@formiz/core';
 
 import { useLogin } from '@/app/auth/auth.service';
-import { FieldInput, FieldCheckboxes, useToastError } from '@/components';
+import { FieldInput, useToastError } from '@/components';
 
-
-const AUTHORITIES = {
-  DOCTOR: 'Médico'
-};
 
 export const LoginForm = ({ onSuccess = () => undefined, ...rest }) => {
   const form = useForm({ subscribe: 'form' });
   const toastError = useToastError();
-  const authorities = Object.values(AUTHORITIES).map((value) => ({ value }));
 
   const { mutate: login, isLoading } = useLogin({
     onSuccess,
@@ -38,7 +33,7 @@ export const LoginForm = ({ onSuccess = () => undefined, ...rest }) => {
       <Formiz id="login-form" autoForm onValidSubmit={login} connect={form}>
         <Stack spacing="4">
           <FieldInput
-            name="username"
+            name="cpf"
             label={'usuário (CPF)'}
             mask={'***.***.***-**'}
             required={'usuário obrigatório'}
@@ -54,10 +49,6 @@ export const LoginForm = ({ onSuccess = () => undefined, ...rest }) => {
             type="password"
             label={'senha'}
             required={'senha obrigatória'}
-          />
-          <FieldCheckboxes
-            name="authorities"
-            options={authorities}
           />
           <Flex>
             <Button
