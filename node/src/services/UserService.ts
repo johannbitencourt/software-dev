@@ -29,19 +29,22 @@ class UserService {
     let user: User = <User>await this.userDao.read({ cpf: body.cpf }, false);
 
     if (!user) {
-      return { message: "User not found" };
+      return { status: 203, message: "User not found" };
     } else if (user.password !== body.password) {
-      return { message: "Wrong Password" };
+      return { status: 203, message: "Wrong Password" };
     }
-
-    return await this.concatTokenWithUser(this.generateToken(user), user);
+    try {
+      return await this.concatTokenWithUser(this.generateToken(user), user);
+    } catch (error) {
+      return { status: 203, message: error.message };
+    }
   }
 
   async create(
     body: IUserCreateUpdateRequestBody
   ): Promise<IUserJwtResponse | IErrorResponse> {
     if (await this.userDao.read({ cpf: body.cpf })) {
-      return { message: "User already exists" };
+      return { status: 203, message: "User already exists" };
     }
 
     return await Promise.resolve(this.getRoleByDescription(body.role))
@@ -75,13 +78,13 @@ class UserService {
     if (body.old_password) {
       const user = <User>await this.userDao.read({ id: userId }, false);
       if (body.old_password !== user.password)
-        return { message: "Wrong old password" };
+        return { status: 203, message: "Wrong old password" };
     }
 
     let roleId;
     if (body.role) {
       const role = await this.getRoleByDescription(body.role);
-      if (!role) return { message: "Role unexpected" };
+      if (!role) return { status: 203, message: "Role unexpected" };
       roleId = role.id;
     }
 

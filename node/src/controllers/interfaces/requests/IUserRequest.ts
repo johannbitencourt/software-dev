@@ -4,6 +4,7 @@ interface IUserLoginRequestBody {
 }
 
 interface IUserCreateUpdateRequestBody {
+  status?: number;
   email?: string;
   cpf: string;
   firstName: string;

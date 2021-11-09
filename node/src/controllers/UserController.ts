@@ -5,13 +5,17 @@ class UserController {
   async create(request: Request, response: Response) {
     const service = new UserService();
     const result = await service.create(request.body);
-    return response.json(result);
+    return response
+      .status("status" in result ? result.status : 200)
+      .json("status" in result ? result.message : result);
   }
 
   async update(request: Request, response: Response) {
     const service = new UserService();
     const result = await service.updateUser(request.body, request.user_id);
-    return response.json(result);
+    return response
+      .status("status" in result ? result.status : 200)
+      .json("status" in result ? result.message : result);
   }
 
   async get(request: Request, response: Response) {
@@ -29,7 +33,9 @@ class UserController {
   async login(request: Request, response: Response) {
     const service = new UserService();
     const result = await service.login(request.body);
-    return response.json(result);
+    return response
+      .status("status" in result ? result.status : 200)
+      .json("status" in result ? result.message : result);
   }
 }
 
