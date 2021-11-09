@@ -21,24 +21,24 @@ export const useAccount = (config: UseQueryOptions<Account> = {}) => {
       ...config,
     }
   );
-  const isAdmin = !!account?.authorities?.includes('DOCTOR');
-  return { account, isAdmin, ...rest };
+  //const isAdmin = !!account?.role?.includes('DOCTOR');
+  return { account, ...rest };
 };
 
 export const useCreateAccount = (
   config: UseMutationOptions<
     Account,
     unknown,
-    Pick<Account, 'login' | 'authorities'> & { password: string }
+    Pick<Account, 'cpf' | 'role'> & { password: string }
   > = {}
 ) => {
   return useMutation(
     ({
-      login,
+      cpf,
       password,
-      authorities
+      role
     }): Promise<Account> =>
-      Axios.post('/register', { login, password, authorities, }),
+      Axios.post('/register', { cpf, password, role: role === null ? 'PATIENT' : 'DOCTOR' }),
     {
       ...config,
     }

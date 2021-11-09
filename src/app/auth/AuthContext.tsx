@@ -7,8 +7,6 @@ interface AuthContextValue {
   updateToken(string): void;
 }
 
-export const AUTH_TOKEN_KEY = 'authToken';
-
 const AuthContext = React.createContext<AuthContextValue>(null);
 
 const updateToken = (newToken) => {
@@ -17,9 +15,9 @@ const updateToken = (newToken) => {
   }
 
   if (!newToken) {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(process.env.JWT_HASH);
   } else {
-    localStorage.setItem(AUTH_TOKEN_KEY, newToken);
+    localStorage.setItem(process.env.JWT_HASH, newToken);
   }
 };
 
@@ -27,7 +25,7 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(
-    (isBrowser && localStorage.getItem(AUTH_TOKEN_KEY)) ?? null
+    (isBrowser && localStorage.getItem(process.env.JWT_HASH)) ?? null
   );
 
   const handleUpdateToken = useCallback(

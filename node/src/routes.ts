@@ -10,7 +10,7 @@ router.get("/init-database", new DatabaseController().handle);
 
 router.post("/authenticate", new UserController().login);
 
-router.post("/user", new UserController().create);
+router.post("/register", new UserController().create);
 router.put("/user", ensureAuthenticated, new UserController().update);
 router.get("/user", ensureAuthenticated, new UserController().get);
 router.delete("/user", ensureAuthenticated, new UserController().delete);

@@ -60,13 +60,13 @@ const MainMenuItem = ({ to, ...rest }: any) => {
 };
 
 export const MainMenu = ({ ...rest }) => {
-  const { isAdmin } = useAccount();
+  // const { isAdmin } = useAccount();
   return (
     <Stack direction="row" spacing="1" {...rest}>
       <MainMenuItem to="/dashboard">
         {'Dashboard'}
       </MainMenuItem>
-      {isAdmin && (
+      {(
         <MainMenuItem to="/admin">{'Consultas'}</MainMenuItem>
       )}
     </Stack>

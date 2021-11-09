@@ -2,11 +2,11 @@ export type UserRole = 'DOCTOR' | 'PATIENT';
 
 export interface User {
   id: number;
-  login: number;
+  cpf: number;
   firstName?: string;
   lastName?: string;
   activated: boolean;
-  authorities: UserRole[];
+  role: UserRole[];
   createdBy?: string;
   createdDate?: string;
   lastModifiedBy?: string;

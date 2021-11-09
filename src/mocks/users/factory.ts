@@ -2,10 +2,10 @@ import dayjs from 'dayjs';
 import { internet, name, date } from 'faker';
 import { Factory } from 'miragejs';
 
-type Authority = 'DOCTOR' | 'PATIENT';
+type Roles = 'DOCTOR' | 'PATIENT';
 
 export const UserFactory = Factory.extend({
-  login: (): string => internet.userName(),
+  cpf: (): string => internet.userName(),
   firstName: (): string => name.firstName(),
   lastName: (): string => name.lastName(),
   createdBy: (): string => name.firstName(),
@@ -13,5 +13,5 @@ export const UserFactory = Factory.extend({
   lastModifiedBy: (): string => name.firstName(),
   lastModifiedDate: () => dayjs(date.past()).format(),
   activated: (): boolean => true,
-  authorities: (): Authority[] => ['PATIENT', 'DOCTOR'],
+  role: (): Roles[] => ['PATIENT', 'DOCTOR'],
 });

@@ -16,7 +16,7 @@ export const useLogin = (
     {
       ...config,
       onSuccess: (data, ...rest) => {
-        updateToken(data.id_token);
+        updateToken(data.token);
         if (config.onSuccess) {
           config.onSuccess(data, ...rest);
         }
@@ -25,4 +25,3 @@ export const useLogin = (
   );
 };
 
-//role: role === null ? 'PATIENT' : 'DOCTOR'

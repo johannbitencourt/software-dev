@@ -106,7 +106,7 @@ export const PageRegister = () => {
             </Heading>
             <Stack spacing="4">
               <FieldInput
-                name="login"
+                name="cpf"
                 label={'usuário (CPF)'}
                 mask={'***.***.***-**'}
                 required={'usuário obrigatório'}
@@ -134,7 +134,7 @@ export const PageRegister = () => {
                 ]}
               />
               <FieldCheckboxes
-                name="authorities"
+                name="role"
                 options={authorities}
               />
               <Flex>

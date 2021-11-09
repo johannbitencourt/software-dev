@@ -85,7 +85,7 @@ export const PageUserUpdate = () => {
               <SkeletonText maxW="6rem" noOfLines={2} />
             ) : (
               <Stack spacing="0">
-                <Heading size="sm">{user?.login}</Heading>
+                <Heading size="sm">{user?.cpf}</Heading>
                 <Text
                   fontSize="xs"
                   color={colorModeValue('gray.600', 'gray.300')}

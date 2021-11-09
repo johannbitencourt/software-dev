@@ -14,7 +14,10 @@ export const Route = (props) => {
   const { pathname, search } = useLocation();
   const history = useHistory();
 
+
+
   useEffect(() => {
+    console.log('BBBBBBBBBBBBBBBBBB ', isAuthenticated, pathname, search)
     if (!isAuthenticated) {
       history.replace(
         `/login?redirect=${encodeURIComponent(pathname + search)}`

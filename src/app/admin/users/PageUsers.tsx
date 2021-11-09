@@ -67,29 +67,29 @@ const UserActions = ({ user, ...rest }) => {
   const toastSuccess = useToastSuccess();
   const toastError = useToastError();
   const { mutate: userUpdate, ...userUpdateData } = useUserUpdate({
-    onSuccess: ({ activated, login }) => {
+    onSuccess: ({ activated, cpf }) => {
       if (activated) {
         toastSuccess({
           title: 'activate user success',
-          description: `activate user success: ${login}`,
+          description: `activate user success: ${cpf}`,
         });
       } else {
         toastSuccess({
           title: 'deactivate user success',
-          description: `deactivate user success: ${login}`
+          description: `deactivate user success: ${cpf}`
         });
       }
     },
-    onError: (_, __, { activated, login }) => {
+    onError: (_, __, { activated, cpf }) => {
       if (activated) {
         toastError({
           title: 'activate user error',
-          description: `activate user error: ${login}`
+          description: `activate user error: ${cpf}`
           });
       } else {
         toastError({
           title:'deactivate user error',
-          description: `deactivate user error: ${login}`
+          description: `deactivate user error: ${cpf}`
         });
       }
     },
@@ -101,17 +101,17 @@ const UserActions = ({ user, ...rest }) => {
 
   const queryClient = useQueryClient();
   const { mutate: userRemove, ...userRemoveData } = useUserRemove({
-    onSuccess: (_, { login }) => {
+    onSuccess: (_, { cpf }) => {
       toastSuccess({
         title: 'delete user success',
-        description: `delete user success: ${login}`
+        description: `delete user success: ${cpf}`
       });
       queryClient.invalidateQueries('users');
     },
-    onError: (_, { login }) => {
+    onError: (_, { cpf }) => {
       toastError({
         title: 'delete user error',
-        description: `delete user error: ${login}`
+        description: `delete user error: ${cpf}`
       });
     },
   });
@@ -128,7 +128,7 @@ const UserActions = ({ user, ...rest }) => {
         <MenuList>
           <MenuItem
             as={Link}
-            to={`${url}/${user.login}`}
+            to={`${url}/${user.cpf}`}
             icon={<Icon icon={FiEdit} fontSize="lg" color="gray.400" />}
           >
             {'edit'}
@@ -201,7 +201,7 @@ export const PageUsers = () => {
             />
           </Box>
         </HStack>
-        <DataList>
+        {/* <DataList>
           <DataListHeader isVisible={{ base: false, md: true }}>
             <DataListCell colName="login" colWidth="2">
               {'CPF'}
@@ -333,7 +333,7 @@ export const PageUsers = () => {
               <PaginationButtonLastPage />
             </Pagination>
           </DataListFooter>
-        </DataList>
+        </DataList> */}
       </PageContent>
     </Page>
   );

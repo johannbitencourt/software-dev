@@ -22,7 +22,7 @@ export const App = () => {
               <RoutePublic
                 exact
                 path="/"
-                render={() => <Redirect to="/dashboard" />}
+                render={() => <Redirect to="/admin" />}
               />
               <RoutePublicOnly
                 exact

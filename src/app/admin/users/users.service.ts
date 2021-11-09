@@ -79,7 +79,7 @@ export const useUserUpdate = (
           });
         });
       queryClient.invalidateQueries('users');
-      queryClient.invalidateQueries(['user', payload.login]);
+      queryClient.invalidateQueries(['user', payload.cpf]);
       if (config.onSuccess) {
         config.onSuccess(data, payload, ...rest);
       }
@@ -93,7 +93,7 @@ export const useUserCreate = (
     unknown,
     Pick<
       User,
-      'login' | 'firstName' | 'lastName' | 'authorities'
+      'cpf' | 'firstName' | 'lastName' | 'role'
     >
   > = {}
 ) => {
@@ -103,14 +103,14 @@ export const useUserCreate = (
   );
 };
 
-type UserWithLoginOnly = Pick<User, 'login'>;
+type UserWithLoginOnly = Pick<User, 'cpf'>;
 
 export const useUserRemove = (
   config: UseMutationOptions<void, unknown, UserWithLoginOnly> = {}
 ) => {
   return useMutation(
     (user: UserWithLoginOnly): Promise<void> =>
-      Axios.delete(`/users/${user.login}`),
+      Axios.delete(`/users/${user.cpf}`),
     { ...config }
   );
 };

@@ -7,12 +7,12 @@ export const AuthRoutes = (server) => {
 
 const authenticate = (schema, request) => {
   const attrs = JSON.parse(request.requestBody);
-  const user = schema.users.findBy({ login: attrs.username.toLowerCase() });
+  const user = schema.users.findBy({ cpf: attrs.username.toLowerCase() });
   if (!user) {
     return new Response(401);
   }
   // Hack to identify current user
-  return { id_token: user.id };
+  return { token: user.cpf };
 };
 
 export const withAuth = (callback) => {
