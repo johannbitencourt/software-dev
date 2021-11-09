@@ -7,16 +7,16 @@ import {
   UseQueryOptions,
 } from 'react-query';
 
-import { User, UserList } from '@/app/admin/users/users.types';
+import { Appointment, AppointmentList, User } from '@/app/admin/users/users.types';
 
-export const useUserList = (
+export const useAppointmentList = (
   { page = 0, size = 10 } = {},
-  config: UseQueryOptions<UserList> = {}
+  config: UseQueryOptions<AppointmentList> = {}
 ) => {
   const result = useQuery(
-    ['users', { page, size }],
-    (): Promise<UserList> =>
-      Axios.get('/users', { params: { page, size, sort: 'id,desc' } }),
+    ['appointment/list', { page, size }],
+    (): Promise<AppointmentList> =>
+      Axios.get('/appointment/list', { params: { page, size, sort: 'id,desc' } }),
     {
       keepPreviousData: true,
       ...config,
@@ -38,48 +38,48 @@ export const useUserList = (
   };
 };
 
-export const useUser = (
-  userLogin: string,
-  config: UseQueryOptions<User> = {}
+export const useAppointment = (
+  appointmentId: string,
+  config: UseQueryOptions<Appointment> = {}
 ) => {
   const result = useQuery(
-    ['user', userLogin],
-    (): Promise<User> => Axios.get(`/users/${userLogin}`),
+    ['appointment', appointmentId],
+    (): Promise<Appointment> => Axios.get(`/appointment/${appointmentId}`),
     {
       ...config,
     }
   );
 
   return {
-    user: result.data,
+    appointment: result.data,
     ...result,
   };
 };
 
-export const useUserUpdate = (
-  config: UseMutationOptions<User, unknown, User> = {}
+export const useAppointmentUpdate = (
+  config: UseMutationOptions<Appointment, unknown, Appointment> = {}
 ) => {
   const queryClient = useQueryClient();
-  return useMutation((payload) => Axios.put('/users', payload), {
+  return useMutation((payload) => Axios.put('/appointment', payload), {
     ...config,
     onSuccess: (data, payload, ...rest) => {
-      queryClient.cancelQueries('users');
+      queryClient.cancelQueries('appointment');
       queryClient
         .getQueryCache()
-        .findAll('users')
+        .findAll('appointment')
         .forEach(({ queryKey }) => {
-          queryClient.setQueryData(queryKey, (cachedData: UserList) => {
+          queryClient.setQueryData(queryKey, (cachedData: AppointmentList) => {
             if (!cachedData) return;
             return {
               ...cachedData,
-              content: (cachedData.content || []).map((user) =>
-                user.id === data.id ? data : user
+              content: (cachedData.content || []).map((appointment) =>
+              appointment.id === data.id ? data : appointment
               ),
             };
           });
         });
-      queryClient.invalidateQueries('users');
-      queryClient.invalidateQueries(['user', payload.cpf]);
+      queryClient.invalidateQueries('appointment');
+      //queryClient.invalidateQueries(['user', payload.cpf]);
       if (config.onSuccess) {
         config.onSuccess(data, payload, ...rest);
       }
@@ -87,12 +87,12 @@ export const useUserUpdate = (
   });
 };
 
-export const useUserCreate = (
+export const useAppointmentCreate = (
   config: UseMutationOptions<
-    User,
+  Appointment,
     unknown,
     Pick<
-      User,
+    User,
       'cpf' | 'firstName' | 'lastName' | 'role'
     >
   > = {}
@@ -105,12 +105,12 @@ export const useUserCreate = (
 
 type UserWithLoginOnly = Pick<User, 'cpf'>;
 
-export const useUserRemove = (
+export const useAppointmentRemove = (
   config: UseMutationOptions<void, unknown, UserWithLoginOnly> = {}
 ) => {
   return useMutation(
     (user: UserWithLoginOnly): Promise<void> =>
-      Axios.delete(`/users/${user.cpf}`),
+      Axios.delete(`/user/${user.cpf}`),
     { ...config }
   );
 };

@@ -45,7 +45,7 @@ export const PageRegister = () => {
 
       if (errorKey === 'userexists') {
         form.invalidateFields({
-          login: 'login já existe no sistema',
+          cpf: 'cpf já existe no sistema',
         });
       }
     },

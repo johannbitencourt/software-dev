@@ -30,7 +30,7 @@ export const App = () => {
                 render={() => <PageLogin />}
               />
               <RoutePublic exact path="/logout" render={() => <PageLogout />} />
-              <RoutePublic path="/account" render={() => <AccountRoutes />} />
+              <RoutePublic path="/user" render={() => <AccountRoutes />} />
               <Route path="/dashboard" render={() => <DashboardRoutes />} />
               <RouteAdmin path="/admin" render={() => <AdminRoutes />} />
               <RoutePublic path="*" render={() => <Error404 />} />

@@ -15,9 +15,9 @@ const AdminRoutes = () => {
       <Route
         exact
         path={`${url}/`}
-        render={() => <Redirect to={`${url}/users`} />}
+        render={() => <Redirect to={`${url}/appointment/list`} />}
       />
-      <Route path={`${url}/users`} render={() => <AdminUsersRoutes />} />
+      <Route path={`${url}/appointment/list`} render={() => <AdminUsersRoutes />} />
       <Route path="*" render={() => <Error404 />} />
     </Switch>
   );

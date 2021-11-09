@@ -44,7 +44,7 @@ class UserService {
     body: IUserCreateUpdateRequestBody
   ): Promise<IUserJwtResponse | IErrorResponse> {
     if (await this.userDao.read({ cpf: body.cpf })) {
-      return { status: 203, message: "User already exists" };
+      return { status: 409, message: "User already exists" };
     }
 
     return await Promise.resolve(this.getRoleByDescription(body.role))

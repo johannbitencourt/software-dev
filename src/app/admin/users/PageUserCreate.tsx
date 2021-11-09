@@ -12,7 +12,7 @@ import {
 import { FieldCheckboxes, FieldInput } from '@/components';
 import { useDarkMode } from '@/hooks/useDarkMode';
 
-import { useUserCreate } from '@/app/admin/users/users.service';
+import { useAppointmentCreate } from '@/app/admin/users/users.service';
 import { Page, PageContent, PageTopBar } from '@/app/layout';
 import { useToastError, useToastSuccess } from '@/components';
 
@@ -30,7 +30,7 @@ export const PageUserCreate = () => {
   const toastError = useToastError();
   const toastSuccess = useToastSuccess();
 
-  const { mutate: createUser, isLoading: createUserLoading } = useUserCreate({
+  const { mutate: createUser, isLoading: createUserLoading } = useAppointmentCreate({
     onError: (error: AxiosError) => {
       const { title, errorKey } = error.response.data;
       toastError({
@@ -49,7 +49,7 @@ export const PageUserCreate = () => {
       toastSuccess({
         title: 'Atualizado com sucesso!',
       });
-      history.push('/admin/users');
+      history.push('/admin/appointment/list');
     },
   });
 

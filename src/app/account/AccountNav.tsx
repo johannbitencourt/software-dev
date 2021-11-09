@@ -11,16 +11,16 @@ export const AccountNav = () => {
       <NavGroup title={'My account'}>
         <NavItem
           as={Link}
-          to="/account/profile"
-          isActive={isActive('/account/profile')}
+          to="/user/profile"
+          isActive={isActive('/user/profile')}
           icon={FiUser}
         >
           {'perfil'}
         </NavItem>
         <NavItem
           as={Link}
-          to="/account/password"
-          isActive={isActive('/account/password')}
+          to="/user/password"
+          isActive={isActive('/user/password')}
           icon={FiLock}
         >
           {'senha'}

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Switch, Redirect, useRouteMatch } from 'react-router-dom';
 
-import { PageActivate } from '@/app/account/PageActivate';
 import { PagePassword } from '@/app/account/PagePassword';
 import { PageProfile } from '@/app/account/PageProfile';
 import { PageRegister } from '@/app/account/PageRegister';
@@ -23,11 +22,6 @@ const AccountRoutes = () => {
         exact
         path={`${url}/register`}
         render={() => <PageRegister />}
-      />
-      <RoutePublicOnly
-        exact
-        path={`${url}/activate`}
-        render={() => <PageActivate />}
       />
 
       <Route exact path={`${url}/profile`} render={() => <PageProfile />} />

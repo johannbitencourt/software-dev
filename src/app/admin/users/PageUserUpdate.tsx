@@ -13,7 +13,7 @@ import {
 import { Formiz, useForm } from '@formiz/core';
 import { AxiosError } from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import { useUser, useUserUpdate } from '@/app/admin/users/users.service';
+import { useAppointment, useAppointmentUpdate } from '@/app/admin/users/users.service';
 import {
   Page,
   PageContent,
@@ -36,17 +36,17 @@ export const PageUserUpdate = () => {
   const { login } = useParams();
   const history = useHistory();
   const {
-    user,
+    appointment,
     isLoading: userIsLoading,
     isFetching: userIsFetching,
     isError: userIsError,
-  } = useUser(login, { refetchOnWindowFocus: false });
+  } = useAppointment(login, { refetchOnWindowFocus: false });
 
   const form = useForm({ subscribe: false });
   const toastSuccess = useToastSuccess();
   const toastError = useToastError();
 
-  const { mutate: editUser, isLoading: editUserIsLoading } = useUserUpdate({
+  const { mutate: editUser, isLoading: editUserIsLoading } = useAppointmentUpdate({
     onError: (error: AxiosError) => {
       const { title, errorKey } = error.response.data;
       toastError({
@@ -70,7 +70,7 @@ export const PageUserUpdate = () => {
   });
   const submitEditUser = (values) => {
     const userToSend = {
-      id: user?.id,
+      id: appointment?.id,
       ...values,
     };
     editUser(userToSend);
@@ -85,19 +85,19 @@ export const PageUserUpdate = () => {
               <SkeletonText maxW="6rem" noOfLines={2} />
             ) : (
               <Stack spacing="0">
-                <Heading size="sm">{user?.cpf}</Heading>
+                <Heading size="sm">{appointment?.id}</Heading>
                 <Text
                   fontSize="xs"
                   color={colorModeValue('gray.600', 'gray.300')}
                 >
-                  {'id'}: {user?.id}
+                  {'id'}: {appointment?.id}
                 </Text>
               </Stack>
             )}
           </Box>
-          {!!user && (
+          {!!appointment && (
             <Box>
-              <UserStatus isActivated={user?.activated} />
+             {/*  <UserStatus isActivated={appointment?.status} /> */}
             </Box>
           )}
         </HStack>
@@ -109,7 +109,7 @@ export const PageUserUpdate = () => {
           id="create-user-form"
           onValidSubmit={submitEditUser}
           connect={form}
-          initialValues={user}
+          initialValues={appointment}
         >
           <form noValidate onSubmit={form.submit}>
             <PageContent>

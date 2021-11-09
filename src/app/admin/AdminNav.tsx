@@ -12,11 +12,11 @@ export const AdminNav = () => {
       <NavGroup title={'Administration'}>
         <NavItem
           as={Link}
-          to="/admin/users"
-          isActive={isActive('/admin/users')}
+          to="/admin/appointment/list"
+          isActive={isActive('/admin/user')}
           icon={FiUsers}
         >
-          {'usuários'}
+          {'consultas'}
         </NavItem>
       </NavGroup>
     </Nav>

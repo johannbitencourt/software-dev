@@ -10,8 +10,8 @@ import { Account } from '@/app/account/account.types';
 
 export const useAccount = (config: UseQueryOptions<Account> = {}) => {
   const { data: account, ...rest } = useQuery(
-    ['account'],
-    (): Promise<Account> => Axios.get('/account'),
+    ['user'],
+    (): Promise<Account> => Axios.get('/user'),
     {
       onSuccess: (data) => {
         if (config?.onSuccess) {
@@ -45,22 +45,11 @@ export const useCreateAccount = (
   );
 };
 
-export const useActivateAccount = (
-  config: UseMutationOptions<void, unknown, { key: string }> = {}
-) => {
-  return useMutation(
-    ({ key }): Promise<void> => Axios.get(`/activate?key=${key}`),
-    {
-      ...config,
-    }
-  );
-};
-
 export const useUpdateAccount = (
   config: UseMutationOptions<Account, unknown, Account> = {}
 ) => {
   return useMutation(
-    (account): Promise<Account> => Axios.post('/account', account),
+    ({ firstName, lastName }): Promise<Account> => Axios.put('/user', { firstName, lastName}),
     {
       onMutate: (data) => {
         if (config?.onMutate) {
@@ -80,7 +69,7 @@ export const useUpdatePassword = (
   > = {}
 ) => {
   return useMutation(
-    (payload): Promise<void> => Axios.post('/account/change-password', payload),
+    (payload): Promise<void> => Axios.post('/user/change-password', payload),
     {
       ...config,
     }

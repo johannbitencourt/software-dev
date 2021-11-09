@@ -12,9 +12,9 @@ const AdminUsersRoutes = () => {
   const { url } = useRouteMatch();
   return (
     <Switch>
-      <Route exact path={`${url}/`} render={() => <PageUsers />} />
-      <Route exact path={`${url}/create`} render={() => <PageUserCreate />} />
-      <Route exact path={`${url}/:login`} render={() => <PageUserUpdate />} />
+      <Route exact path={`${url}/`} render={() => <h1>Hello</h1>} />
+      <Route exact path={`${url}/appointment/start`} render={() => <PageUserCreate />} />
+      <Route exact path={`${url}/appointment/:id`} render={() => <PageUserUpdate />} />
       <Route path="*" render={() => <Error404 />} />
     </Switch>
   );

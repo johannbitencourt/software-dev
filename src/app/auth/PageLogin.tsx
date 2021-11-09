@@ -31,7 +31,7 @@ export const PageLogin = () => {
           <LoginForm onSuccess={onLogin} />
         </Box>
         <Center mt="8">
-          <Button as={RouterLink} to="/account/register" variant="link">
+          <Button as={RouterLink} to="/user/register" variant="link">
             {'Precisa de uma conta?'}{' '}
             <Box
               as="strong"

@@ -33,9 +33,9 @@ import { Link, useRouteMatch } from 'react-router-dom';
 
 import { UserStatus } from '@/app/admin/users/UserStatus';
 import {
-  useUserList,
-  useUserRemove,
-  useUserUpdate,
+  useAppointmentList,
+  useAppointmentRemove,
+  useAppointmentUpdate,
 } from '@/app/admin/users/users.service';
 import { Page, PageContent } from '@/app/layout';
 import { usePaginationFromUrl } from '@/app/router';
@@ -62,45 +62,45 @@ import { useDarkMode } from '@/hooks/useDarkMode';
 
 import { AdminNav } from '../AdminNav';
 
-const UserActions = ({ user, ...rest }) => {
+const AppointmentActions = ({ appointment, ...rest }) => {
   const { url } = useRouteMatch();
   const toastSuccess = useToastSuccess();
   const toastError = useToastError();
-  const { mutate: userUpdate, ...userUpdateData } = useUserUpdate({
-    onSuccess: ({ activated, cpf }) => {
-      if (activated) {
+  const { mutate: appointmentUpdate, ...appointmentUpdateData } = useAppointmentUpdate({
+    onSuccess: ({ status, id }) => {
+      if (status) {
         toastSuccess({
           title: 'activate user success',
-          description: `activate user success: ${cpf}`,
+          description: `activate user success: ${id}`,
         });
       } else {
         toastSuccess({
           title: 'deactivate user success',
-          description: `deactivate user success: ${cpf}`
+          description: `deactivate user success: ${id}`
         });
       }
     },
-    onError: (_, __, { activated, cpf }) => {
-      if (activated) {
+    onError: (_, __, { status, id }) => {
+      if (status) {
         toastError({
           title: 'activate user error',
-          description: `activate user error: ${cpf}`
+          description: `activate user error: ${id}`
           });
       } else {
         toastError({
           title:'deactivate user error',
-          description: `deactivate user error: ${cpf}`
+          description: `deactivate user error: ${id}`
         });
       }
     },
   });
 
-  const activateUser = () => userUpdate({ ...user, activated: true });
-  const deactivateUser = () => userUpdate({ ...user, activated: false });
-  const isActionsLoading = userUpdateData.isLoading;
+  const activateAppointment = () => appointmentUpdate({ ...appointment, activated: true });
+  const deactivateAppointment = () => appointmentUpdate({ ...appointment, activated: false });
+  const isActionsLoading = appointmentUpdateData.isLoading;
 
   const queryClient = useQueryClient();
-  const { mutate: userRemove, ...userRemoveData } = useUserRemove({
+  const { mutate: appointmentRemove, ...appointmentRemoveData } = useAppointmentRemove({
     onSuccess: (_, { cpf }) => {
       toastSuccess({
         title: 'delete user success',
@@ -115,8 +115,8 @@ const UserActions = ({ user, ...rest }) => {
       });
     },
   });
-  const removeUser = () => userRemove(user);
-  const isRemovalLoading = userRemoveData.isLoading;
+  const removeUser = () => appointmentRemove(appointment);
+  const isRemovalLoading = appointmentRemoveData.isLoading;
 
   return (
     <Menu isLazy placement="left-start" {...rest}>
@@ -128,21 +128,21 @@ const UserActions = ({ user, ...rest }) => {
         <MenuList>
           <MenuItem
             as={Link}
-            to={`${url}/${user.cpf}`}
+            to={`${url}/${appointment.id}`}
             icon={<Icon icon={FiEdit} fontSize="lg" color="gray.400" />}
           >
             {'edit'}
           </MenuItem>
-          {user.activated ? (
+          {appointment.activated ? (
             <MenuItem
-              onClick={deactivateUser}
+              onClick={deactivateAppointment}
               icon={<Icon icon={FiXCircle} fontSize="lg" color="gray.400" />}
             >
               {'deactivate'}
             </MenuItem>
           ) : (
             <MenuItem
-              onClick={activateUser}
+              onClick={activateAppointment}
               icon={
                 <Icon icon={FiCheckCircle} fontSize="lg" color="gray.400" />
               }
@@ -163,28 +163,27 @@ const UserActions = ({ user, ...rest }) => {
   );
 };
 
-export const PageUsers = () => {
+export const PageAppointments = () => {
   const { colorModeValue } = useDarkMode();
-  const { url } = useRouteMatch();
   const { page, setPage } = usePaginationFromUrl();
   const pageSize = 20;
-  const { users, totalItems, isLoadingPage } = useUserList({
+  /* const { appointment, totalItems, isLoadingPage } = useAppointmentList({
     page: page - 1,
     size: pageSize,
-  });
+  }); */
 
   return (
     <Page containerSize="xl" nav={<AdminNav />}>
       <PageContent>
         <HStack mb="4">
           <Box flex="1">
-            <Heading size="md">{'User List'}</Heading>
+            <Heading size="md">{'Lista de Consulta'}</Heading>
           </Box>
           <Box>
             <Button
               display={{ base: 'none', sm: 'flex' }}
               as={Link}
-              to={`${url}/create`}
+              to={`appointment/start`}
               variant="@primary"
               leftIcon={<FiPlus />}
             >
@@ -194,7 +193,7 @@ export const PageUsers = () => {
               display={{ base: 'flex', sm: 'none' }}
               aria-label={'Nova Consulta'}
               as={Link}
-              to={`${url}/create`}
+              to={`appointment/start`}
               size="sm"
               variant="@primary"
               icon={<FiPlus />}
