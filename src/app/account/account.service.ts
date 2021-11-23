@@ -21,7 +21,7 @@ export const useAccount = (config: UseQueryOptions<Account> = {}) => {
       ...config,
     }
   );
-  const isAdmin = !!account?.authorities?.includes('DOCTOR');
+  const isAdmin = !!account?.authorities?.find(() => 'PATIENT' || 'DOCTOR');
   return { account, isAdmin, ...rest };
 };
 

@@ -11,6 +11,9 @@ export interface User {
   createdDate?: string;
   lastModifiedBy?: string;
   lastModifiedDate?: string;
+  appointment_id?: string;
+  doctor?: string;
+  patient?: string;
 }
 
 export interface UserList {

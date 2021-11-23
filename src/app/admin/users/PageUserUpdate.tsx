@@ -79,28 +79,6 @@ export const PageUserUpdate = () => {
   return (
     <Page containerSize="md" isFocusMode>
       <PageTopBar showBack onBack={() => history.goBack()}>
-        <HStack spacing="4">
-          <Box flex="1">
-            {userIsLoading || userIsError ? (
-              <SkeletonText maxW="6rem" noOfLines={2} />
-            ) : (
-              <Stack spacing="0">
-                <Heading size="sm">{user?.login}</Heading>
-                <Text
-                  fontSize="xs"
-                  color={colorModeValue('gray.600', 'gray.300')}
-                >
-                  {'id'}: {user?.id}
-                </Text>
-              </Stack>
-            )}
-          </Box>
-          {!!user && (
-            <Box>
-              <UserStatus isActivated={user?.activated} />
-            </Box>
-          )}
-        </HStack>
       </PageTopBar>
       {userIsFetching && <Loader />}
       {userIsError && !userIsFetching && <Error404 />}
@@ -121,6 +99,32 @@ export const PageUserUpdate = () => {
                 spacing="6"
                 shadow="md"
               >
+                <HStack direction="column"
+                  p="6"
+                  spacing="4"
+                >
+                <Box flex="1">
+                  {userIsLoading || userIsError ? (
+                    <SkeletonText maxW="6rem" noOfLines={2} />
+                  ) : (
+                    <Stack spacing="0">
+                      <Heading size="sm">{ `Paciente: ${user?.patient}` }</Heading>
+                      <Text
+                        fontSize="xs"
+                        color={colorModeValue('gray.600', 'gray.300')}
+                      >
+                        {'consulta'}: {user?.appointment_id}
+                      </Text>
+                    </Stack>
+                  )}
+                </Box>
+                {!!user && (
+                  <Box>
+                    <Heading size="sm">{ `CPF: ${user?.login}` }</Heading>
+                    <UserStatus isActivated={user?.activated} />
+                  </Box>
+                )}
+              </HStack>
                 <FieldInput
                   name="login"
                   label={'usuário (CPF)'}

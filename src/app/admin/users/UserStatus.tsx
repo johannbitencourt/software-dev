@@ -6,22 +6,22 @@ export const UserStatus = ({ isActivated = false, ...rest }) => {
   return isActivated ? (
     <Badge size="sm" colorScheme="success" {...rest}>
       <Box as="span" d={{ base: 'none', md: 'block' }}>
-        {'status activated'}
+        {'consulta aberta'}
       </Box>
       <Icon
         icon={FiCheck}
-        aria-label={'status activated'}
+        aria-label={'consulta aberta'}
         d={{ base: 'inline-flex', md: 'none' }}
       />
     </Badge>
   ) : (
     <Badge size="sm" colorScheme="warning" {...rest}>
       <Box as="span" d={{ base: 'none', md: 'block' }}>
-        {'status deactivated'}
+        {'consulta encerrada'}
       </Box>
       <Icon
         icon={FiX}
-        aria-label={'status deactivated'}
+        aria-label={'consulta encerrada'}
         d={{ base: 'inline-flex', md: 'none' }}
       />
     </Badge>

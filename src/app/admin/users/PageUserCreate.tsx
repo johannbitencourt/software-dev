@@ -16,16 +16,10 @@ import { useUserCreate } from '@/app/admin/users/users.service';
 import { Page, PageContent, PageTopBar } from '@/app/layout';
 import { useToastError, useToastSuccess } from '@/components';
 
-const AUTHORITIES = {
-  DOCTOR: 'DOCTOR',
-  PATIENT: 'PATIENT',
-};
-
 export const PageUserCreate = () => {
   const history = useHistory();
   const form = useForm({ subscribe: false });
   const { colorModeValue } = useDarkMode();
-  const authorities = Object.values(AUTHORITIES).map((value) => ({ value }));
 
   const toastError = useToastError();
   const toastSuccess = useToastSuccess();
@@ -96,12 +90,6 @@ export const PageUserCreate = () => {
                 <FieldInput name="firstName" label={'nome'} />
                 <FieldInput name="lastName" label={'sobrenome'} />
               </Stack>
-              <FieldCheckboxes
-                name="authorities"
-                label={'autorização'}
-                options={authorities}
-                required={'autorização obrigatória'}
-              />
               <ButtonGroup justifyContent="space-between">
                 <Button onClick={() => history.goBack()}>
                   {'Cancelar'}

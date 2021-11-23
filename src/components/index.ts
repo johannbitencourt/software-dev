@@ -11,3 +11,4 @@ export * from './Nav';
 export * from './SlideIn';
 export * from './Toast';
 export * from './Viewport';
+export * from './MessageBox';

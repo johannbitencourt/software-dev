@@ -178,7 +178,7 @@ export const PageUsers = () => {
       <PageContent>
         <HStack mb="4">
           <Box flex="1">
-            <Heading size="md">{'User List'}</Heading>
+            <Heading size="md">{'Consultas'}</Heading>
           </Box>
           <Box>
             <Button
@@ -203,33 +203,34 @@ export const PageUsers = () => {
         </HStack>
         <DataList>
           <DataListHeader isVisible={{ base: false, md: true }}>
-            <DataListCell colName="login" colWidth="2">
-              {'CPF'}
+            <DataListCell colName="appointment_id" colWidth="2">
+              {'Consulta'}
             </DataListCell>
             <DataListCell
-              colName="id"
-              colWidth="4rem"
+              colName="doctor"
+              colWidth="2"
               isVisible={{ base: false, lg: true }}
             >
-              {'id'}
+              {'Médico'}
             </DataListCell>
             <DataListCell
-              colName="authorities"
+              colName="patient"
+              colWidth="2"
               isVisible={{ base: false, lg: true }}
             >
-              {'authorities'}
+              {'Paciente'}
             </DataListCell>
             <DataListCell
               colName="created"
               isVisible={{ base: false, lg: true }}
             >
-              {'createdBy'}
+              {'Data Solicitação'}
             </DataListCell>
             <DataListCell
               colName="lastModified"
               isVisible={{ base: false, md: true }}
             >
-              {'modifiedBy'}
+              {'Data Atendimento'}
             </DataListCell>
             <DataListCell
               colName="status"
@@ -237,38 +238,34 @@ export const PageUsers = () => {
               align="center"
             >
               <Box as="span" d={{ base: 'none', md: 'block' }}>
-                {'status'}
+                {'Status'}
               </Box>
             </DataListCell>
             <DataListCell colName="actions" colWidth="4rem" align="flex-end" />
           </DataListHeader>
           {users?.map((user) => (
             <DataListRow as={LinkBox} key={user.id}>
-              <DataListCell colName="login">
+              <DataListCell colName="appointment_id">
                 <HStack maxW="100%">
                   <Avatar size="sm" name={user.firstName} mx="1" />
                   <Box minW="0">
                     <Text isTruncated maxW="full" fontWeight="bold">
                       <LinkOverlay as={Link} to={`${url}/${user.login}`}>
-                        {user.login}
+                        {user.appointment_id}
                       </LinkOverlay>
                     </Text>
                   </Box>
                 </HStack>
               </DataListCell>
-              <DataListCell colName="id">
-                <Text isTruncated maxW="full" as={Code} fontSize="xs">
-                  {user.id}
+              <DataListCell colName="doctor">
+                <Text isTruncated maxW="full">
+                  {Object.values(user.authorities).includes('DOCTOR') ? `${user.firstName} ${user.lastName}` : user.doctor}
                 </Text>
               </DataListCell>
-              <DataListCell colName="authorities">
-                <Wrap>
-                  {user.authorities?.map((authority) => (
-                    <WrapItem key={authority}>
-                      <Badge size="sm">{authority}</Badge>
-                    </WrapItem>
-                  ))}
-                </Wrap>
+              <DataListCell colName="patient">
+                <Text isTruncated maxW="full">
+                {Object.values(user.authorities).includes('PATIENT') ? `${user.firstName} ${user.lastName}` : user.patient}
+                </Text>
               </DataListCell>
               <DataListCell
                 colName="created"
@@ -276,9 +273,6 @@ export const PageUsers = () => {
                 position="relative"
                 pointerEvents="none"
               >
-                <Text isTruncated maxW="full">
-                  {user.createdBy}
-                </Text>
                 {!!user.createdDate && (
                   <Text
                     isTruncated
@@ -296,9 +290,6 @@ export const PageUsers = () => {
                 position="relative"
                 pointerEvents="none"
               >
-                <Text isTruncated maxW="full">
-                  {user.lastModifiedBy}
-                </Text>
                 {!!user.lastModifiedDate && (
                   <Text
                     isTruncated
