@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Button, ButtonGroup, Heading, Stack } from '@chakra-ui/react';
+import { Button, ButtonGroup, Heading, Stack, Textarea } from '@chakra-ui/react';
 import { Formiz, useForm } from '@formiz/core';
 import { AxiosError } from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -23,6 +23,8 @@ export const PageUserCreate = () => {
 
   const toastError = useToastError();
   const toastSuccess = useToastSuccess();
+
+  const [trigger, setTrigger] = useState(false)
 
   const { mutate: createUser, isLoading: createUserLoading } = useUserCreate({
     onError: (error: AxiosError) => {
@@ -52,6 +54,7 @@ export const PageUserCreate = () => {
       ...values,
     };
     await createUser(newUser);
+    setTrigger(true)
   };
 
   return (
@@ -74,22 +77,8 @@ export const PageUserCreate = () => {
               spacing="6"
               shadow="md"
             >
-              <FieldInput
-                name="login"
-                label={'usuário (CPF)'}
-                mask={'***.***.***-**'}
-                required={'usuário obrigatório'}
-                validations={[
-                  {
-                    rule: isPattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})'),
-                    message: 'apenas números são permitidos',
-                  },
-                ]}
-              />
-              <Stack direction={{ base: 'column', sm: 'row' }} spacing="6">
-                <FieldInput name="firstName" label={'nome'} />
-                <FieldInput name="lastName" label={'sobrenome'} />
-              </Stack>
+              <Heading size="md">{'Quais são os Sintomas?'}</Heading>
+              <Textarea isDisabled={!!trigger} />
               <ButtonGroup justifyContent="space-between">
                 <Button onClick={() => history.goBack()}>
                   {'Cancelar'}

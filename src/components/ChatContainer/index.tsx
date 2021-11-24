@@ -1,7 +1,7 @@
 import { Flex, FlexProps } from '@chakra-ui/react';
 import React from "react";
 
-export const Container = (props: FlexProps) => {
+export const ChatContainer = (props: FlexProps) => {
   return (
     <Flex
       direction="column"
